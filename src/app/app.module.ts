@@ -10,10 +10,12 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { DishDetailsComponent } from './dish-details/dish-details.component';
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    DishDetailsComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,
