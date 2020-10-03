@@ -5,14 +5,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
 import { AppComponent } from './app.component';
-
+import { MenuComponent } from './menu/menu.component';
+import { MatListModule } from '@angular/material/list';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,
-    MatToolbarModule,FlexLayoutModule
+    MatToolbarModule,FlexLayoutModule,MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
