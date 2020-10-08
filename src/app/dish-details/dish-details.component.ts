@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./dish-details.component.scss']
 })
 export class DishDetailsComponent implements OnInit {
- 
+
   dish: Dish;
   constructor(private dishService: DishService,
     private route: ActivatedRoute,
@@ -18,9 +18,9 @@ export class DishDetailsComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.params['id'];
-    this.dishService.getDish(id).then(dish => this.dish = dish);
+    this.dishService.getDish(id).subscribe(dish => this.dish = dish);
   }
-  
+
   goBack(): void {
     this.location.back();
   }
