@@ -7,10 +7,24 @@ import { Comment } from '../shared/comment';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 @Component({
   selector: 'app-dish-details',
   templateUrl: './dish-details.component.html',
-  styleUrls: ['./dish-details.component.scss']
+  styleUrls: ['./dish-details.component.scss'],
+  animations: [
+    trigger('visibility', [
+        state('shown', style({
+            transform: 'scale(1.0)',
+            opacity: 1
+        })),
+        state('hidden', style({
+            transform: 'scale(0.5)',
+            opacity: 0
+        })),
+        transition('* => *', animate('0.5s ease-in-out'))
+    ])
+  ]
 })
 export class DishDetailsComponent implements OnInit {
 
@@ -21,6 +35,7 @@ export class DishDetailsComponent implements OnInit {
   commentForm: FormGroup;
   comments: Comment;
   errMess: string;
+  visibility = 'shown';
 
   @ViewChild('cform') commentFormDirective;
   formErrors = {
@@ -47,8 +62,8 @@ export class DishDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.dishService.getDishId().subscribe(dishId=>this.dishIds = dishId);
-    this.route.params.pipe(switchMap((params:Params)=>this.dishService.getDish(params['id'])))
-    .subscribe(dish => {this.dish = dish;this.setPrevNext(dish.id) },errmess => this.errMess = <any>errmess);
+    this.route.params.pipe(switchMap((params:Params)=>{this.visibility='hidden'; return this.dishService.getDish(params['id'])}))
+    .subscribe(dish => {this.dish = dish;this.visibility='shown';this.setPrevNext(dish.id) },errmess => this.errMess = <any>errmess);
   }
 
   setPrevNext(dishId:string)
