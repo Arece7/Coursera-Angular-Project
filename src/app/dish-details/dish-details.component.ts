@@ -3,7 +3,6 @@ import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Comment } from '../shared/comment';
-import { baseURL } from '../shared/baseurl';
 
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -21,6 +20,8 @@ export class DishDetailsComponent implements OnInit {
   next:string;
   commentForm: FormGroup;
   comments: Comment;
+  errMess: string;
+
   @ViewChild('cform') commentFormDirective;
   formErrors = {
     'author': '',
@@ -47,7 +48,7 @@ export class DishDetailsComponent implements OnInit {
   ngOnInit() {
     this.dishService.getDishId().subscribe(dishId=>this.dishIds = dishId);
     this.route.params.pipe(switchMap((params:Params)=>this.dishService.getDish(params['id'])))
-    .subscribe(dish => {this.dish = dish;this.setPrevNext(dish.id) });
+    .subscribe(dish => {this.dish = dish;this.setPrevNext(dish.id) },errmess => this.errMess = <any>errmess);
   }
 
   setPrevNext(dishId:string)
