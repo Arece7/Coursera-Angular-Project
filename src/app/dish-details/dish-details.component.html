@@ -43,7 +43,17 @@
       </p>
       </mat-list-item>
     </mat-list>
-    <p [hidden]=commentForm.invalid>{{ commentForm.value | json }}</p>
+    <div [hidden]=commentForm.invalid>
+      <mat-list role="list" >
+        <mat-list-item role="listitem">
+        <p matLine>{{commentForm.value.comment}}</p>
+        <p matLine>{{commentForm.value.rating}}</p>
+        <p matLine>
+          <span>--{{commentForm.value.author}}</span>
+        </p>
+        </mat-list-item>
+      </mat-list>
+    </div>
       <form novalidate   class="form-size" [formGroup]="commentForm" #cform="ngForm" (ngSubmit)="onSubmit()">
         <p>
           <mat-form-field class="full-width" >
