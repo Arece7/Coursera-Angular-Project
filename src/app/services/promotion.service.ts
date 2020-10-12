@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Promotion } from '../shared/promotion';
 import { Observable, of } from 'rxjs';
-import { catchError, delay, map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ProcessHTTPMsgService } from './process-httpmsg.service';
 import { baseURL } from '../shared/baseurl';

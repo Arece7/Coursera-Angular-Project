@@ -7,7 +7,7 @@ import { Comment } from '../shared/comment';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
-import { flyInOut, visibility,expand } from '../animations/app.animation';
+import { flyInOut, visibility, expand } from '../animations/app.animation';
 
 @Component({
   selector: 'app-dish-details',

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { flyInOut } from '../animations/app.animation';
+import { expand, flyInOut } from '../animations/app.animation';
+import { FeedBackService } from '../services/feed-back.service';
 import { Feedback, ContactType } from '../shared/feedback';
 @Component({
   selector: 'app-contact',
@@ -11,13 +12,16 @@ import { Feedback, ContactType } from '../shared/feedback';
     'style': 'display: block;'
     },
   animations: [
-  flyInOut()
+  flyInOut(),expand()
   ]
 })
 export class ContactComponent implements OnInit {
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
+  showFeedbackForm:boolean = true;
+  spinner:boolean= false;
+  errMess:string;
   @ViewChild('fform') feedbackFormDirective;
   formErrors = {
     'firstname': '',
@@ -46,7 +50,7 @@ export class ContactComponent implements OnInit {
       'email':         'Email not in valid format.'
     },
   };
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private feedBackService: FeedBackService) {
     this.createForm();
    }
 
@@ -71,6 +75,15 @@ export class ContactComponent implements OnInit {
 
   onSubmit() {
     this.feedback = this.feedbackForm.value;
+    this.spinner=true;
+    this.feedBackService.submitFeedback(this.feedback)
+    .subscribe(feedback => {
+      this.feedback = feedback;
+      this.spinner=false;
+      this.showFeedbackForm = false;
+      setTimeout(() => { this.showFeedbackForm = true; console.log(this.showFeedbackForm); }, 5000);
+    },
+    errmess => { this.feedback = null; this.errMess = <any>errmess; });
     console.log(this.feedback);
     this.feedbackForm.reset({
       firstname: '',
@@ -83,6 +96,7 @@ export class ContactComponent implements OnInit {
     });
     this.feedbackFormDirective.resetForm();
   }
+
   onValueChanged(data?: any) {
     if (!this.feedbackForm) { return; }
     const form = this.feedbackForm;
